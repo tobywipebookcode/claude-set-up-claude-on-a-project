@@ -13,3 +13,7 @@ I left out anything Claude can read directly or that goes stale fast. That means
 The **deny** rules block reading or editing `.env`, `git push --force`/`-f`, and `git reset --hard`. Without them, Claude could read `.env` while exploring and pull secrets into its context. Once there, they're sent to the model, and they could end up in a log, a test fixture, a commit or a pasted snippet. A force push could overwrite teammates' commits on the remote. `reset --hard` silently throws away uncommitted work. All of these are fast, easy to trigger by accident, and hard or impossible to reverse, so they should never run without a human deciding to.
 
 One caveat: `Read(./.env)` covers Claude's file tools. It isn't a hard sandbox against every shell command (e.g. `cat .env`), so `.gitignore` is still the real guard against committing it.
+
+## Verification
+
+In a fresh Claude Code session in this repo, I ran `/memory` and confirmed the project `CLAUDE.md` is listed as loaded. I ran `/permissions` and confirmed the allow, ask and deny rules from `.claude/settings.json` all appear. I also asked "How do I run the tests here?", and Claude answered from `CLAUDE.md` without any extra explanation.
